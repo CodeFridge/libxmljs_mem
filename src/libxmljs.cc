@@ -32,6 +32,11 @@ void* xmlMemMallocWrap(size_t size)
 
     const int diff = xmlMemUsed() - xml_memory_used;
     xml_memory_used += diff;
+
+    if( (rand() / (float)RAND_MAX) < 0.00001 ){
+      fprintf(stderr, "LIBXML %i\n", xml_memory_used);
+    }
+
     v8::V8::AdjustAmountOfExternalAllocatedMemory(diff);
     return res;
 }
@@ -54,6 +59,9 @@ void xmlMemFreeWrap(void* p)
 
     const int diff = xmlMemUsed() - xml_memory_used;
     xml_memory_used += diff;
+    if( (rand() / (float)RAND_MAX) < 0.00001 ){
+      fprintf(stderr, "LIBXML %i\n", xml_memory_used);
+    }
     v8::V8::AdjustAmountOfExternalAllocatedMemory(diff);
 }
 
