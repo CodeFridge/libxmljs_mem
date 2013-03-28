@@ -3,6 +3,7 @@
 #define SRC_XML_NODE_H_
 
 #include <libxml/tree.h>
+#include "xml_document.h"
 
 namespace libxmljs {
 
@@ -10,6 +11,7 @@ class XmlNode : public node::ObjectWrap {
 public:
 
     xmlNode* xml_obj;
+    libxmljs::XmlDocument* doc;
 
     explicit XmlNode(xmlNode* node);
     virtual ~XmlNode();

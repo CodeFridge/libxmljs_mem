@@ -49,9 +49,6 @@ XmlElement::New(const v8::Arguments& args) {
   elem->_private = element;
   element->Wrap(args.Holder());
 
-  // this prevents the document from going away
-  args.Holder()->Set(v8::String::NewSymbol("document"), args[0]);
-
   return scope.Close(args.Holder());
 }
 

@@ -184,18 +184,17 @@ XmlNode::XmlNode(xmlNode* node) : xml_obj(node) {
 
     // this will prevent the document from being cleaned up
     // we keep the document if any of the nodes attached to it are still alive
-    XmlDocument* doc = static_cast<XmlDocument*>(xml_obj->doc->_private);
+    doc = static_cast<XmlDocument*>(xml_obj->doc->_private);
     doc->ref();
 }
 
 XmlNode::~XmlNode() {
     xml_obj->_private = NULL;
+    doc->unref();
+    doc = NULL;
 
     // release the hold and allow the document to be freed
     if (xml_obj->type != -1) {
-      XmlDocument* doc = static_cast<XmlDocument*>(xml_obj->doc->_private);
-      doc->unref();
-
       // We do not free the xmlNode here if it is linked to a document
       // It will be freed when the doc is freed
       if (xml_obj->parent == NULL)
