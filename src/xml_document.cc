@@ -6,7 +6,7 @@
 #include <cstring>
 
 #include <libxml/HTMLparser.h>
-#include <libxml/HTMLTree.h>
+#include <libxml/HTMLtree.h>
 #include <libxml/xmlschemas.h>
 
 #include "xml_document.h"
