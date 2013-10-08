@@ -17,6 +17,7 @@
 namespace libxmljs {
 
 v8::Persistent<v8::FunctionTemplate> XmlDocument::constructor_template;
+static const xmlChar UTF8[] = "UTF-8";
 
 v8::Handle<v8::Value>
 XmlDocument::Encoding(const v8::Arguments& args)
@@ -136,6 +137,12 @@ XmlDocument::ToString(const v8::Arguments& args)
 
     xmlChar* buffer = NULL;
     int len = 0;
+
+    const xmlChar * encoding = htmlGetMetaEncoding(document->xml_obj);
+    // if there is a meta encoding specified, override it with UTF-8 (we always output to be utf-8)
+    if(encoding){
+      htmlSetMetaEncoding(document->xml_obj, UTF8);
+    }
     htmlDocDumpMemoryFormat(document->xml_obj, &buffer, &len, args[0]->BooleanValue() ? 1 : 0);
     v8::Local<v8::String> str = v8::String::New((const char*)buffer, len);
     xmlFree(buffer);
